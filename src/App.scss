@@ -6,13 +6,14 @@
 
 body {
   background-color: $background-color;
-  text-align: center;
+  padding: 24px;
 }
 
 .container {
-  margin: 10px auto;
-  width: 90%;
+  margin: 0 auto;
+  width: 100%;
   max-width: 1000px;
+	min-width: 360px;
 }
 
 .button-bar {
@@ -20,9 +21,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  :last-child {
-    background-color: $secondary;
-  }
+
   @media screen and (min-width: 600px) {
     flex-direction: row;
     justify-content: end;

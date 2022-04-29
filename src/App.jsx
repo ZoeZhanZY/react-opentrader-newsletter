@@ -1,8 +1,9 @@
 import "./App.scss";
-import Button from "./components/Button/Button"
+//import ButtonComponent from "./components/ButtonComponent/ButtonComponent"
 import Hero from "./components/Hero/Hero";
 import ListItem from "./components/ListItem/ListItem";
 import PaginationComponent from "./components/PaginationComponent/PaginationComponent";
+import Button from "@mui/material/Button";
 
 function App() {
   return (
@@ -11,8 +12,13 @@ function App() {
         <Hero />
       </div>
       <div className="button-bar">
-        <Button text="SHUFFLE PAGE"></Button>
-        <Button text="REST"></Button>
+        <Button color="primary" variant="contained">
+          SHUFFLE PAGE
+        </Button>
+        <Button color="warning" variant="contained">
+          RESET
+        </Button>
+        
       </div>
       <div className="list">
         <ListItem />
@@ -20,7 +26,6 @@ function App() {
         <ListItem />
         <ListItem />
         <ListItem />
-       
       </div>
       <div className="pagination">
         <PaginationComponent />
