@@ -1,0 +1,49 @@
+@import "./styles/styles.scss";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $background-color;
+  text-align: center;
+}
+
+.container {
+  margin: 10px auto;
+  width: 90%;
+  max-width: 1000px;
+}
+
+.button-bar {
+  margin: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  :last-child {
+    background-color: $secondary;
+  }
+  @media screen and (min-width: 600px) {
+    flex-direction: row;
+    justify-content: end;
+  }
+}
+
+.list {
+  display: grid;
+  grid-template-columns: auto;
+  justify-content: space-between;
+  gap: 24px;
+  @media screen and (min-width: 600px) {
+    grid-template-columns: auto auto;
+  }
+
+  @media screen and (min-width: 800px) {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+.pagination {
+  margin: 24px auto;
+  text-align: center;
+}

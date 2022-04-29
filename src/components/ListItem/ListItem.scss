@@ -1,0 +1,26 @@
+@import '../../styles/styles.scss';
+
+.paper {
+  padding: 12px;
+  background-color: $high-lighted;
+  border-radius: 5px;
+}
+
+.photo {
+  height: 240px;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.name {
+  font-size: large;
+  font-weight: 600;
+  text-align: left;
+  margin: 24px 0;
+}
+
+.email {
+  text-align: left;
+  margin: 24px 0;
+  color: $neutral;
+}
