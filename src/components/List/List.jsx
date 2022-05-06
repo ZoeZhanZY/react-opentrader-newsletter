@@ -2,10 +2,10 @@ import React from "react";
 import ListItem from "./ListItem/ListItem";
 
 const List = ({ renderedList }) => {
-  console.log({ renderedList });
   return (
     <>
-      {renderedList.length &&
+      {renderedList &&
+        renderedList.length > 1 &&
         renderedList.map((user) => (
           <ListItem
             id={user.id}

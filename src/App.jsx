@@ -6,49 +6,74 @@ import PaginationComponent from "./components/PaginationComponent/PaginationComp
 import Button from "@mui/material/Button";
 
 function App() {
-  const [users, setUsers] = useState([]);
+  const [userLists, setUserLists] = useState([]);
+  const [renderedList, setRenderedList] = useState([]);
   const [adLink, setAdLink] = useState();
   const [pageCount, setPageCount] = useState();
-  const [page, setPage] = useState(1);
-  const [reset, setReset] = useState(false);
-  const [shuffle, setShuffle] = useState(false);
-  let shuffleCount = 0;
+  const [currentPage, setCurrentPage] = useState(1);
 
+  // Fetch data from backend
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("https://reqres.in/api/users?page=" + page);
-      const json = await res.json();
-      const processedJson = json.data.slice(0, 5);
-      // const shuffledJson = processedJson.sort((a, b) => {
-      //   return 0.5 - Math.random();
-      // });
+      const res = await fetch(
+        "https://reqres.in/api/users?page=" + currentPage
+      );
+      const { page, data, total_pages, support } = await res.json();
+      const slicedData = data.slice(0, 5);
+      const newUserList = { page, slicedData };
 
-      // reset ? setUsers(processedJson) : setUsers(shuffledJson);
-      // shuffle ? setUsers(shuffledJson) : setUsers(processedJson);
-      setUsers(processedJson);
-      setPageCount(json.total_pages);
-      setAdLink(json.support.url);
+      const isCurrentPageDataExisted = userLists.some(
+        (pageObject) => pageObject.page === currentPage
+      );
+
+      if (!isCurrentPageDataExisted) {
+        setUserLists([...userLists, newUserList]);
+      }
+
+      setPageCount(total_pages);
+      setAdLink(support.url);
     };
+
     fetchData();
-  }, [page, reset]);
+  }, [currentPage]);
+
+  // Update rendered list data
+  useEffect(() => {
+    console.log("userLists", userLists);
+
+    const renderedData =
+      userLists.length > 0 &&
+      userLists.find((el) => el.page === currentPage)?.slicedData;
+
+    setRenderedList(renderedData);
+  }, [userLists, currentPage]);
 
   const handleShuffle = () => {
-    const shuffledUsers = [
-      ...users.sort((a, b) => {
-        return 0.5 - Math.random();
-      }),
-    ];
+    const randomShuffle = (a, b) => {
+      return 0.5 - Math.random();
+    };
+    const targetUserList = userLists.find(
+      (el) => el.page === currentPage
+    ).slicedData;
+    const shuffledList = [...targetUserList.sort(randomShuffle)];
 
-    setUsers(shuffledUsers);
-    // shuffleCount += 1;
-    console.log({ users });
+    setRenderedList(shuffledList);
   };
+
   const handleReset = () => {
-    setReset(!reset);
+    const compareNumber = (a, b) => {
+      return a.id - b.id;
+    };
+
+    const targetUserList = userLists.find(
+      (el) => el.page === currentPage
+    ).slicedData;
+    const resetList = [...targetUserList.sort(compareNumber)];
+    setRenderedList(resetList);
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{ color: "white" }}>
       <div className="hero">
         <Hero adLink={adLink} />
       </div>
@@ -61,13 +86,13 @@ function App() {
         </Button>
       </div>
       <div className="list">
-        <List renderedList={users} />
+        <List renderedList={renderedList} />
       </div>
       <div className="pagination">
         <PaginationComponent
           pageCount={pageCount}
-          page={page}
-          setPage={setPage}
+          page={currentPage}
+          setPage={setCurrentPage}
         />
       </div>
     </div>
